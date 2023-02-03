@@ -8,7 +8,7 @@ const EpisodeList = ({ episodeList }) => {
       {episodeList.results.map((episode) => {
         return (
           <div>
-            <Link href={`/episode/${episode.id}`}>
+            <Link href={`/episodes/${episode.id}`}>
               <h1>
                 Episode: {episode.episode} - Name: {episode.name}
               </h1>
