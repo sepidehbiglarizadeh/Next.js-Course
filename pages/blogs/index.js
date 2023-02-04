@@ -7,7 +7,7 @@ const BlogsList = ({ blogs }) => {
       <div>
         {blogs.map((blog) => {
           return (
-            <h2>
+            <h2 key={blog.id}>
               Title: {blog.title} - Category: {blog.category}
             </h2>
           );
