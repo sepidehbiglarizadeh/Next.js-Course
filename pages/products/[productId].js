@@ -22,11 +22,8 @@ const Episode = ({ product }) => {
 export default Episode;
 
 export async function getStaticPaths() {
-
   return {
-    paths: [
-      { params: { productId: "1" } },
-    ],
+    paths: [{ params: { productId: "1" } }],
     fallback: true,
   };
 }
@@ -36,9 +33,12 @@ export async function getStaticProps(context) {
   const { data } = await axios.get(
     `http://localhost:4000/products/${params.productId}`
   );
+  console.log(`generating the /products/${params.productId} page`);
+
   return {
     props: {
       product: data,
     },
+    revalidate: 10,
   };
 }

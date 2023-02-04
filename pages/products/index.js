@@ -25,9 +25,11 @@ export default EpisodeList;
 
 export async function getStaticProps() {
   const { data } = await axios.get("http://localhost:4000/products");
+  console.log("generating the /products page");
   return {
     props: {
       productList: data,
     },
+    revalidate: 10,
   };
 }
