@@ -56,5 +56,12 @@
       "category": "node.js",
       "description": "description 6"
     }
-  ]
+  ],
+  "profile": {
+    "name": "sepideh",
+    "email": "test@gmail.com",
+    "transactions": 15,
+    "balance": 1000,
+    "products": 5
+  }
 }
