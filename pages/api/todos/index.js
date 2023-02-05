@@ -4,7 +4,8 @@ export default function handler(req, res) {
   if (req.method === "POST") {
     const newTodo = {
       id: Date.now(),
-      title: req.body.todo,
+      title: req.body.formData.title,
+      description: req.body.formData.description,
     };
     todos.push(newTodo);
     return res.status(201).json({ message: "New todo added", todos });
