@@ -1,17 +1,33 @@
 import { CheckIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = async () => {
-  const { data } = await axios.get("/api/todos");
-  return data;
-};
-
 const Home = () => {
-  const { data, error } = useSWR("getAllTodos", fetcher);
+  const [todos, setTodos] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if(error) return <div>Some error occured!</div>
-  if(!data) return <div>Loading...</div>
+  useEffect(() => {
+    axios
+      .get("/api/todos")
+      .then((res) => {
+        setTodos(res.data.todos);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const deleteTodoHandler = async (id) => {
+    axios
+      .delete(`/api/todos/${id}`)
+      .then((res) => {
+        setTodos(res.data.todos);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  if (loading) return <div>Loading...!</div>;
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -21,15 +37,18 @@ const Home = () => {
       <div className="container p-2 xl:max-w-screen-xl mx-auto">
         <section className="flex items-center justify-center">
           <div className="w-full max-w-screen-md bg-white p-2 md:p-4 rounded-xl">
-            {data.todos.map((todo) => {
+            {todos.map((todo) => {
               return (
-                <div key={todo.id} className="flex items-center justify-between border border-gray-100 mb-4 p-3 md:p-4 rounded-xl">
+                <div
+                  key={todo.id}
+                  className="flex items-center justify-between border border-gray-100 mb-4 p-3 md:p-4 rounded-xl"
+                >
                   <span>{todo.title}</span>
                   <div className="flex gap-x-3 items-center">
-                    <button className="">
+                    <button>
                       <CheckIcon className="w-6 h-6 stroke-green-400" />
                     </button>
-                    <button className="">
+                    <button onClick={() => deleteTodoHandler(todo.id)}>
                       <TrashIcon className="w-6 h-6 stroke-red-400" />
                     </button>
                     <button>
