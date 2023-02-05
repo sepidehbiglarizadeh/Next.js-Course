@@ -1,7 +1,7 @@
-import { CheckIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import TodoForm from "@/components/todos/TodoForm";
+import TodoList from "@/components/todos/TodoList";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
 
 const Home = () => {
   const [todos, setTodos] = useState(null);
@@ -21,6 +21,17 @@ const Home = () => {
     axios
       .delete(`/api/todos/${id}`)
       .then((res) => {
+        setTodos(todos.filter((t) => t.id !== parseInt(id)));
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const addTodoHandler = async (e, todo) => {
+    e.preventDefault();
+    axios
+      .post(`/api/todos/`, { todo })
+      .then((res) => {
         setTodos(res.data.todos);
         setLoading(false);
       })
@@ -36,29 +47,8 @@ const Home = () => {
       </nav>
       <div className="container p-2 xl:max-w-screen-xl mx-auto">
         <section className="flex items-center justify-center">
-          <div className="w-full max-w-screen-md bg-white p-2 md:p-4 rounded-xl">
-            {todos.map((todo) => {
-              return (
-                <div
-                  key={todo.id}
-                  className="flex items-center justify-between border border-gray-100 mb-4 p-3 md:p-4 rounded-xl"
-                >
-                  <span>{todo.title}</span>
-                  <div className="flex gap-x-3 items-center">
-                    <button>
-                      <CheckIcon className="w-6 h-6 stroke-green-400" />
-                    </button>
-                    <button onClick={() => deleteTodoHandler(todo.id)}>
-                      <TrashIcon className="w-6 h-6 stroke-red-400" />
-                    </button>
-                    <button>
-                      <PencilIcon className="w-6 h-6 stroke-blue-400" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <TodoForm onAdd={addTodoHandler} />
+          <TodoList todos={todos} onDelete={deleteTodoHandler} />
         </section>
       </div>
     </div>
