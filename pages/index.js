@@ -1,21 +1,11 @@
 import TodoForm from "@/components/todos/TodoForm";
 import TodoList from "@/components/todos/TodoList";
+import Todo from "@/server/models/todo";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Home = () => {
-  const [todos, setTodos] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    axios
-      .get("/api/todos")
-      .then((res) => {
-        setTodos(res.data.todos);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+const Home = ({ todosData }) => {
+  const [todos, setTodos] = useState(todosData);
 
   const deleteTodoHandler = async (id) => {
     axios
@@ -30,16 +20,13 @@ const Home = () => {
   const addTodoHandler = async (e, formData) => {
     e.preventDefault();
     axios
-      .post(`/api/todos/`, {formData} )
+      .post(`/api/todos/`, { formData })
       .then((res) => {
         setTodos(res.data.todos);
         setLoading(false);
       })
       .catch((err) => console.log(err));
   };
-
-
-  if (loading) return <div>Loading...!</div>;
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -57,3 +44,12 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  const todos = await Todo.find({});
+  return {
+    props: {
+      todosData: JSON.parse(JSON.stringify(todos)),
+    },
+  };
+}
