@@ -21,7 +21,7 @@ const Home = () => {
     axios
       .delete(`/api/todos/${id}`)
       .then((res) => {
-        setTodos(todos.filter((t) => t.id !== parseInt(id)));
+        setTodos(res.data.todos);
         setLoading(false);
       })
       .catch((err) => console.log(err));
@@ -37,6 +37,7 @@ const Home = () => {
       })
       .catch((err) => console.log(err));
   };
+
 
   if (loading) return <div>Loading...!</div>;
 

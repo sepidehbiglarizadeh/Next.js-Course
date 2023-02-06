@@ -6,7 +6,7 @@ const TodoList = ({ todos, onDelete }) => {
       {todos.map((todo) => {
         return (
           <div
-            key={todo.id}
+            key={todo._id}
             className="flex items-center justify-between border border-gray-100 mb-4 p-3 md:p-4 rounded-xl"
           >
             <span>{todo.title}</span>
@@ -14,7 +14,7 @@ const TodoList = ({ todos, onDelete }) => {
               <button>
                 <CheckIcon className="w-6 h-6 stroke-green-400" />
               </button>
-              <button onClick={() => onDelete(todo.id)}>
+              <button onClick={() => onDelete(todo._id)}>
                 <TrashIcon className="w-6 h-6 stroke-red-400" />
               </button>
               <button>

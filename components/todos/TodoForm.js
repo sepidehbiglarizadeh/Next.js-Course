@@ -8,6 +8,11 @@ const TodoForm = ({ onAdd }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const submitFormHandler = (e) => {
+    onAdd(e, formData);
+    setFormData({ title: "", description: "" });
+  };
+
   if (!isShow) {
     return (
       <div className="">
@@ -24,7 +29,7 @@ const TodoForm = ({ onAdd }) => {
   return (
     <form
       className="w-full max-w-md bg-white p-2 md:p-4 rounded-xl"
-      onSubmit={(e) => onAdd(e, formData)}
+      onSubmit={submitFormHandler}
     >
       <div className="mb-4">
         <label className="text-gray-600 mb-1 block" htmlFor="todo-title">
