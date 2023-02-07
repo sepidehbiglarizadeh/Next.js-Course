@@ -28,6 +28,15 @@ const Home = ({ todosData }) => {
       .catch((err) => console.log(err));
   };
 
+  const completeHandler = (id) => {
+    axios
+      .put(`/api/todos/complete/${id}`)
+      .then(({ data }) => {
+        setData(data.todos);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <nav className=" w-full bg-white shadow-sm flex justify-center py-4 mb-6">
@@ -36,7 +45,7 @@ const Home = ({ todosData }) => {
       <div className="container p-2 xl:max-w-screen-xl mx-auto">
         <section className="flex md:flex-row md:items-start md:justify-center gap-x-8 flex-col gap-y-8">
           <TodoForm onAdd={addTodoHandler} />
-          <TodoList todos={todos} onDelete={deleteTodoHandler} />
+          <TodoList todos={todos} onDelete={deleteTodoHandler} onComplete={completeHandler} />
         </section>
       </div>
     </div>
