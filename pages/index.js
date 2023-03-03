@@ -41,8 +41,8 @@ const Home = ({ todosData }) => {
   return (
     <Layout>
       <section className="flex md:flex-row md:items-start md:justify-center gap-x-8 flex-col gap-y-8">
-        <TodoForm onAdd={addTodo} />
-        <TodoList data={data} onDelete={deleteTodo} onComplete={completeHandler} />
+        <TodoForm onAdd={addTodoHandler} />
+        <TodoList data={todos} onDelete={deleteTodo} onComplete={completeHandler} />
       </section>
     </Layout>
   );
